@@ -13,11 +13,15 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+app.get("/posts", (req, res) => {
+  res.render("posts");
+});
+
 app.get("/sign-up", (req, res) => {
   res.render("sign-up");
 });
 
-app.get("/login-page", (req, res) => {
+app.get("/login", (req, res) => {
   res.render("login-page");
 });
 

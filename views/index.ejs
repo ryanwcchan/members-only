@@ -2,10 +2,42 @@
 <html lang="en">
   <%- include("./partials/head.ejs") %>
   <body>
-    <div class="m-[5rem]">
-      <h1 class="text-4xl text-red-500 text-center font-bold">
-        Members Only Forum
-      </h1>
+    <div class="flex flex-col min-h-screen">
+      <%- include("./partials/navbar.ejs") %>
+      <main class="flex flex-col bg-gray-50 h-full flex-1">
+        <div class="bg-black py-10">
+          <h1 class="text-4xl text-red-500 text-center font-bold">
+            Members Only Forum
+          </h1>
+          <p class="text-2xl text-center my-4 text-white">
+            Welcome to the Members Only Forum!
+            <a
+              href="/login"
+              class="underline hover:text-blue-500 transition-colors ease-in-out duration-300"
+              >Login</a
+            >
+            or
+            <a
+              href="/sign-up"
+              class="underline hover:text-blue-500 transition-colors ease-in-out duration-300"
+              >Sign Up</a
+            >
+            to create posts.
+          </p>
+        </div>
+        <div class="mx-10 mt-5">
+          <h2 class="text-2xl font-bold my-4">Recent Posts</h2>
+          <div class="grid grid-cols-3 gap-4">
+            <div
+              class="bg-white p-6 rounded-lg shadow-md hover:text-blue-500 hover:scale-105 transition-all ease-in-out duration-300 cursor-pointer"
+            >
+              <h3 class="text-lg font-semibold">Title</h3>
+              <p class="text-black">Author</p>
+              <p class="text-gray-600">Description</p>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   </body>
 </html>

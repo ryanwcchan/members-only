@@ -2,49 +2,52 @@
 <html lang="en">
   <%- include("./partials/head.ejs") %>
   <body>
-    <div
-      class="flex flex-col justify-center items-center my-auto min-h-screen bg-gray-50"
-    >
-      <h2 class="text-2xl font-bold text-center my-4">Login</h2>
-      <form
-        action="/sign-up"
-        method="POST"
-        class="w-full max-w-md flex flex-col items-center gap-4 p-6 m-4 rounded-lg shadow-lg shadow-gray-500/50 py-10 bg-white"
+    <div class="flex flex-col min-h-screen">
+      <%- include("./partials/navbar.ejs") %>
+      <main
+        class="flex flex-col justify-center items-center bg-gray-50 h-full flex-1"
       >
-        <div class="flex flex-col">
-          <label for="username" class="text-lg font-medium pb-2"
-            >Username</label
-          >
-          <input
-            type="text"
-            name="username"
-            id="username"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <div class="flex flex-col">
-          <label for="password" class="text-lg font-medium pb-2"
-            >Password</label
-          >
-          <input
-            type="password"
-            name="password"
-            id="password"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <button
-          type="submit"
-          class="bg-red-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 my-2"
+        <h2 class="text-2xl font-bold text-center my-4">Login</h2>
+        <form
+          action="/sign-up"
+          method="POST"
+          class="w-full max-w-md flex flex-col items-center gap-4 p-6 m-4 rounded-lg shadow-lg shadow-gray-500/50 py-10 bg-white"
         >
-          Login
-        </button>
-        <button>
-          <a href="/sign-up" class="underline hover:text-blue-500"
-            >Don't have an account?</a
+          <div class="flex flex-col">
+            <label for="username" class="text-lg font-medium pb-2"
+              >Username</label
+            >
+            <input
+              type="text"
+              name="username"
+              id="username"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div class="flex flex-col">
+            <label for="password" class="text-lg font-medium pb-2"
+              >Password</label
+            >
+            <input
+              type="password"
+              name="password"
+              id="password"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <button
+            type="submit"
+            class="bg-red-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 my-2"
           >
-        </button>
-      </form>
-    </div>
+            Login
+          </button>
+          <button>
+            <a href="/sign-up" class="underline hover:text-blue-500"
+              >Don't have an account?</a
+            >
+          </button>
+        </form>
+      </div>
+    </main>
   </body>
 </html>
