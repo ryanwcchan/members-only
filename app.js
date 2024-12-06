@@ -13,6 +13,14 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+app.get("/sign-up", (req, res) => {
+  res.render("sign-up");
+});
+
+app.get("/login-page", (req, res) => {
+  res.render("login-page");
+});
+
 app.listen(port, console.log(`Server running on http://localhost:${port}`));
 
 // Initialize BrowserSync
