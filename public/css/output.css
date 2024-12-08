@@ -623,6 +623,11 @@ video {
   width: 100%;
 }
 
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .max-w-md {
   max-width: 28rem;
 }
@@ -661,6 +666,10 @@ video {
 
 .gap-\[2rem\] {
   gap: 2rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
 }
 
 .rounded-lg {
