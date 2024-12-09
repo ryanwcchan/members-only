@@ -7,7 +7,7 @@ const passport = require("./config/passport.js");
 const pool = require("./db/pool.js");
 
 const session = require("express-session");
-const PgSession = require("connect-pg-simple")(session);
+// const PgSession = require("connect-pg-simple")(session);
 
 pool.query("SELECT NOW()", (err, res) => {
   if (err) {
@@ -27,9 +27,9 @@ app.use(express.static(path.join(__dirname, "public")));
 // Session middleware
 app.use(
   session({
-    store: new PgSession({
-      pool: pool,
-    }),
+    // store: new PgSession({
+    //   pool: pool,
+    // }),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -43,11 +43,16 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  next();
+});
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index", { user: req.user });
 });
 
 app.get("/posts", (req, res) => {
@@ -60,6 +65,11 @@ app.get("/sign-up", (req, res) => {
 
 app.get("/login", (req, res) => {
   res.render("login-page", { errorMessage: null });
+});
+
+app.use((req, res, next) => {
+  console.log("Current user:", req.user);
+  next();
 });
 
 // Routes

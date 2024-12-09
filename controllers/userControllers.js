@@ -11,7 +11,7 @@ const userController = {
       if (existingUser) {
         return res
           .status(400)
-          .redirect("sign-up", { errorMessage: "Username already exists" });
+          .render("sign-up", { errorMessage: "Username already exists" });
       }
 
       // Hash the password
@@ -21,12 +21,12 @@ const userController = {
         username,
         password: hashedPassword,
       });
-      res.status(201).redirect("/login-page");
+      res.status(201).render("/login-page");
     } catch (err) {
       console.log(err);
       res
         .status(500)
-        .redirect("sign-up", { errorMessage: "Internal Server Error" });
+        .render("sign-up", { errorMessage: "Internal Server Error" });
     }
   },
 
@@ -39,7 +39,7 @@ const userController = {
       if (!user) {
         return res
           .status(401)
-          .redirect("login-page", { errorMessage: "Invalid credentials" });
+          .render("login-page", { errorMessage: "Invalid credentials" });
       }
 
       // Compare the password
@@ -48,15 +48,23 @@ const userController = {
       if (!isValidPassword) {
         return res
           .status(401)
-          .redirect("login-page", { errorMessage: "Invalid credentials" });
+          .render("login-page", { errorMessage: "Invalid credentials" });
       }
 
-      res.status(200).redirect("/");
+      req.login(user, (err) => {
+        if (err) {
+          console.log(err);
+          return res
+            .status(500)
+            .render("login-page", { errorMessage: "Internal Server Error" });
+        }
+        res.status(200).redirect("/");
+      });
     } catch (err) {
       console.log(err);
       res
         .status(500)
-        .redirect("login-page", { errorMessage: "Internal Server Error" });
+        .render("login-page", { errorMessage: "Internal Server Error" });
     }
   },
 };
