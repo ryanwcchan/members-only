@@ -3,13 +3,48 @@ const app = express();
 const port = 3000;
 const path = require("path");
 const browserSync = require("browser-sync").create();
+const passport = require("./config/passport.js");
+const pool = require("./db/pool.js");
+
+const session = require("express-session");
+const PgSession = require("connect-pg-simple")(session);
+
+pool.query("SELECT NOW()", (err, res) => {
+  if (err) {
+    console.error("Database connection failed:", err.stack);
+  } else {
+    console.log("Database connected. Current time:", res.rows[0].now);
+  }
+});
+
+// JSON and Form data Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Static files middleware
+app.use(express.static(path.join(__dirname, "public")));
+
+// Session middleware
+app.use(
+  session({
+    store: new PgSession({
+      pool: pool,
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60, // 1 hour
+    },
+  })
+);
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
   res.render("index");
@@ -20,12 +55,17 @@ app.get("/posts", (req, res) => {
 });
 
 app.get("/sign-up", (req, res) => {
-  res.render("sign-up");
+  res.render("sign-up", { errorMessage: null });
 });
 
 app.get("/login", (req, res) => {
-  res.render("login-page");
+  res.render("login-page", { errorMessage: null });
 });
+
+// Routes
+const userRoutes = require("./routes/userRoutes.js");
+
+app.use("/auth", userRoutes);
 
 app.listen(port, console.log(`Server running on http://localhost:${port}`));
 

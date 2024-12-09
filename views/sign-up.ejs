@@ -8,8 +8,9 @@
         class="flex flex-col justify-center items-center my-auto h-full flex-1 bg-gray-50"
       >
         <h2 class="text-2xl font-bold text-center my-4">Sign Up</h2>
+        <% if (errorMessage) { %><p style="color: red;"><%= errorMessage %></p><% } %>
         <form
-          action="/sign-up"
+          action="/auth/sign-up"
           method="POST"
           class="w-full max-w-md flex flex-col items-center gap-4 p-6 m-4 rounded-lg shadow-lg shadow-gray-500/50 bg-white py-10"
         >
