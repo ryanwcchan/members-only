@@ -59,23 +59,36 @@ app.get("/posts", (req, res) => {
   res.render("posts");
 });
 
-app.get("/sign-up", (req, res) => {
+app.get("/sign-up", isAuthenticated, (req, res) => {
   res.render("sign-up", { errorMessage: null });
 });
 
-app.get("/login", (req, res) => {
+app.get("/login", isAuthenticated, (req, res) => {
   res.render("login-page", { errorMessage: null });
 });
 
-app.use((req, res, next) => {
-  console.log("Current user:", req.user);
-  next();
+app.get("/profile", checkAuthenticated, (req, res) => {
+  res.render("profile", { user: req.user });
 });
 
 // Routes
 const userRoutes = require("./routes/userRoutes.js");
 
 app.use("/auth", userRoutes);
+
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/login");
+}
+
+function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect("/");
+  }
+  next();
+}
 
 app.listen(port, console.log(`Server running on http://localhost:${port}`));
 

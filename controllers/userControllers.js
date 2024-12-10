@@ -4,7 +4,20 @@ const bcrypt = require("bcryptjs");
 const userController = {
   async registerUser(req, res) {
     try {
-      const { username, password } = req.body;
+      const { username, fname, lname, email, password, confirmPassword } =
+        req.body;
+
+      // Validate required fields
+      if (!username || !password || !email) {
+        return res
+          .status(400)
+          .render("sign-up", { errorMessage: "Required fields are missing" });
+      }
+      if (password !== confirmPassword) {
+        return res
+          .status(400)
+          .render("sign-up", { errorMessage: "Passwords do not match" });
+      }
 
       const existingUser = await userModel.getUserByUsername(username);
 
@@ -19,9 +32,14 @@ const userController = {
 
       const user = await userModel.createUser({
         username,
+        firstName: fname,
+        lastName: lname,
+        email,
         password: hashedPassword,
+        dateCreated: new Date(),
+        role: "user",
       });
-      res.status(201).render("/login-page");
+      res.status(201).render("login-page");
     } catch (err) {
       console.log(err);
       res
