@@ -31,6 +31,24 @@ const postModel = {
     const result = await pool.query(query);
     return result.rows;
   },
+
+  async getRecentPosts() {
+    const query = `
+        SELECT 
+            posts.*,
+            users.username,
+            users.first_name,
+            users.last_name,
+            users.email,
+            users.role
+        FROM posts
+        JOIN users ON posts.user_id = users.user_id
+        ORDER BY posts.date_created DESC
+        LIMIT 5
+        `;
+    const result = await pool.query(query);
+    return result.rows;
+  },
 };
 
 module.exports = postModel;

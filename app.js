@@ -53,9 +53,9 @@ app.use((req, res, next) => {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => {
-  res.render("index", { user: req.user });
-});
+const postController = require("./controllers/postControllers.js");
+
+app.get("/", postController.getRecentPosts);
 
 app.get("/sign-up", isAuthenticated, (req, res) => {
   res.render("sign-up", { errorMessage: null });
