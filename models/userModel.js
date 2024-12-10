@@ -41,6 +41,12 @@ const userModel = {
   //   const result = await pool.query(query, [lastName]);
   //   return result.rows[0];
   // },
+
+  async getUserById(user_id) {
+    const query = `SELECT * FROM users WHERE user_id = $1`;
+    const result = await pool.query(query, [user_id]);
+    return result.rows[0];
+  },
 };
 
 module.exports = userModel;

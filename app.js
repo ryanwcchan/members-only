@@ -57,10 +57,6 @@ app.get("/", (req, res) => {
   res.render("index", { user: req.user });
 });
 
-app.get("/posts", (req, res) => {
-  res.render("posts");
-});
-
 app.get("/sign-up", isAuthenticated, (req, res) => {
   res.render("sign-up", { errorMessage: null });
 });

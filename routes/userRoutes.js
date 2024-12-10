@@ -16,4 +16,7 @@ router.get("/logout", (req, res) => {
   });
 });
 
+router.get("/users/:user_id", userController.getUserById);
+// router.get("/users", userController.getAllUsers);
+
 module.exports = router;

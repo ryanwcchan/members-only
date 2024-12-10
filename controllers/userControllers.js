@@ -99,6 +99,16 @@ const userController = {
         .render("login-page", { errorMessage: "Internal Server Error" });
     }
   },
+
+  async getUserById(req, res) {
+    try {
+      const user_id = req.params.user_id;
+      const user = await userModel.getUserById(user_id);
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 };
 
 module.exports = userController;

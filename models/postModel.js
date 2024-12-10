@@ -18,7 +18,16 @@ const postModel = {
   },
 
   async getAllPosts() {
-    const query = `SELECT * FROM posts`;
+    const query = `
+        SELECT 
+            posts.*,
+            users.first_name,
+            users.last_name,
+            users.email,
+            users.role
+        FROM posts
+        JOIN users ON posts.user_id = users.user_id
+        `;
     const result = await pool.query(query);
     return result.rows;
   },
