@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <div class="flex flex-col min-h-screen">
+      <%- include('./partials/navbar.ejs') %>
+      <main
+        class="flex flex-col justify-center items-center my-auto h-full flex-1 bg-gray-50"
+      >
+        <h1 class="text-2xl font-bold my-4">Create New Post</h1>
+        <form
+          action="/create-post"
+          method="POST"
+          class="w-full max-w-md flex flex-col items-center gap-4 p-6 m-4 rounded-lg shadow-lg shadow-gray-500/50 bg-white py-10"
+        >
+          <div class="flex flex-col">
+            <label for="username" class="text-lg font-medium pb-2"
+              >Title:</label
+            >
+            <input
+              type="text"
+              name="title"
+              id="title"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label for="content" class="text-lg font-medium pb-2"
+              >Content:</label
+            >
+            <textarea
+              name="content"
+              id="content"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              rows="4"
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="bg-red-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 my-2"
+          >
+            Create Post
+          </button>
+        </form>
+      </main>
+    </div>
+  </body>
+</html>

@@ -39,7 +39,9 @@ const userController = {
         dateCreated: new Date(),
         role: "user",
       });
-      res.status(201).render("login-page");
+
+      console.log(user);
+      res.status(201).render("login-page", { errorMessage: null });
     } catch (err) {
       console.log(err);
       res
@@ -68,6 +70,18 @@ const userController = {
           .status(401)
           .render("login-page", { errorMessage: "Invalid credentials" });
       }
+
+      req.session.user = {
+        user_id: user.user_id,
+        username: user.username,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        email: user.email,
+        role: user.role,
+      };
+
+      // Check if session is set
+      console.log("req.session.user: ", req.session.user);
 
       req.login(user, (err) => {
         if (err) {

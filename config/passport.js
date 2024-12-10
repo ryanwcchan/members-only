@@ -6,12 +6,14 @@ const bcrypt = require("bcryptjs");
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      const result = await pool.query(
+      const { rows } = await pool.query(
         "SELECT * FROM users WHERE username = $1",
         [username]
       );
-      const user = result.rows[0];
-      console.log("user fetched from DB:", user);
+
+      const user = rows[0];
+
+      console.log("User fetched from DB:", user);
 
       if (!user) {
         return done(null, false, { message: "User not found" });
@@ -32,6 +34,7 @@ passport.use(
 
 passport.serializeUser((user, done) => {
   console.log("Serializing user:", user); // Debugging
+  console.log("User ID:", user.user_id);
   done(null, user.user_id);
 });
 

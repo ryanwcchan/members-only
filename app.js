@@ -44,6 +44,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use((req, res, next) => {
+  console.log("Session Object:", req.session);
+  console.log("User Object:", req.user);
   res.locals.user = req.user || null;
   next();
 });
@@ -71,10 +73,18 @@ app.get("/profile", checkAuthenticated, (req, res) => {
   res.render("profile", { user: req.user });
 });
 
+app.get("/create-post", checkAuthenticated, (req, res) => {
+  res.render("create-post", { user: req.user });
+});
+
 // Routes
 const userRoutes = require("./routes/userRoutes.js");
 
-app.use("/auth", userRoutes);
+app.use("/", userRoutes);
+
+const postRoutes = require("./routes/postRoutes.js");
+
+app.use("/", postRoutes);
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
