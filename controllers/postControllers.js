@@ -127,7 +127,10 @@ const postController = {
 
       console.log("Post:", post);
 
-      res.render("post-page", { post });
+      res.render("post-page", {
+        post,
+        user_id: req.user ? req.user.user_id : null,
+      });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
