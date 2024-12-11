@@ -15,6 +15,47 @@
           <p><strong>Role:</strong> <%= user.role %></p>
           <p><strong>Created At:</strong> <%= user.date_created %></p>
         </div>
+          <% if (posts.length > 0) { %>
+            <ul class="flex flex-wrap">
+              <% posts.forEach((post) => { %>
+              <li
+                class="p-6 m-4 rounded-lg shadow-lg shadow-gray-500/50 bg-white py-10"
+              >
+                <div class="flex justify-between">
+                  <div>
+                    <h2 class="text-xl font-bold">Title: <%= post.title %></h2>
+                    <p>
+                      <strong>Posted by:</strong> <%= post.username %><%=
+                      post.first_name %> <%= post.last_name %>
+                    </p>
+                    <p><%= post.email %></p>
+                    <p><%= post.content %></p>
+                    <p><strong>Date posted:</strong> <%= post.formatted_date %></p>
+                  </div>
+                  <div class="flex items-center">
+                    <% if (post.user_id === user.user_id) { %>
+                    <form
+                      action="/post/<%= post.post_id %>?_method=DELETE"
+                      method="POST"
+                      onsubmit="return confirm('Are you sure you want to delete this post?')"
+                    >
+                      <button
+                        class="bg-red-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 my-2"
+                        type="submit"
+                      >
+                        Delete
+                      </button>
+                    </form>
+                    <% } %>
+                  </div>
+                </div>
+              </li>
+    
+              <% }) %>
+            </ul>
+            <% } else { %>
+            <p>No posts found.</p>
+            <% } %>
       </main>
     </div>
   </body>

@@ -68,41 +68,22 @@ app.get("/login", isAuthenticated, (req, res) => {
   res.render("login-page", { errorMessage: null });
 });
 
-app.get("/profile", checkAuthenticated, (req, res) => {
-  res.render("profile", { user: req.user });
+const postModel = require("./models/postModel.js");
+
+app.get("/profile", checkAuthenticated, async (req, res) => {
+  try {
+    const userPosts = await postModel.getPostByUser(req.user.user_id);
+
+    res.render("profile", { user: req.user, posts: userPosts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.get("/create-post", checkAuthenticated, (req, res) => {
   res.render("create-post", { user: req.user });
 });
-
-const authorizeDelete = async (req, res, next) => {
-  const post_id = req.params.post_id;
-  const user_id = req.user.user_id;
-  const user_role = req.user.role;
-
-  try {
-    const query = `SELECT * FROM posts WHERE post_id = $1`;
-    const result = await pool.query(query, [post_id]);
-
-    if (result.rows.length === 0) {
-      return res.status(404).send("Post not found");
-    }
-
-    const postOwnerId = result.rows[0].user_id;
-
-    if ((postOwnerId = user_id || user_role === "admin")) {
-      next();
-    } else {
-      return res
-        .status(403)
-        .send("You do not have permission to delete this post");
-    }
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send("Internal Server Error");
-  }
-};
 
 // Routes
 const userRoutes = require("./routes/userRoutes.js");

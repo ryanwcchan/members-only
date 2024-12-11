@@ -8,12 +8,12 @@
         <h1 class="text-2xl font-bold text-center my-4">Posts</h1>
 
         <% if (posts.length > 0) { %>
-        <ul class="min-w-64">
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <% posts.forEach((post) => { %>
           <li
             class="p-6 m-4 rounded-lg shadow-lg shadow-gray-500/50 bg-white py-10"
           >
-            <div class="flex justify-between">
+            <div class="flex flex-col justify-between">
               <div>
                 <h2 class="text-xl font-bold">Title: <%= post.title %></h2>
                 <p>
