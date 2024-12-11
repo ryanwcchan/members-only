@@ -74,6 +74,21 @@ app.get("/profile", checkAuthenticated, async (req, res) => {
   try {
     const userPosts = await postModel.getPostByUser(req.user.user_id);
 
+    userPosts.forEach((post) => {
+      const date = new Date(post.date_created);
+      post.formatted_date = `${date.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })}, ${date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      })}`;
+    });
+
     res.render("profile", { user: req.user, posts: userPosts });
   } catch (error) {
     console.error(error);

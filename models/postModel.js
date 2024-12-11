@@ -57,13 +57,36 @@ const postModel = {
   },
 
   async getPostByUser(user_id) {
-    const query = `SELECT * FROM posts WHERE user_id = $1`;
+    const query = `
+        SELECT
+            posts.*,
+            users.username,
+            users.first_name,
+            users.last_name,
+            users.email,
+            users.role
+        FROM posts
+        JOIN users ON posts.user_id = users.user_id
+        WHERE posts.user_id = $1
+        ORDER BY posts.date_created DESC 
+        `;
     const result = await pool.query(query, [user_id]);
     return result.rows;
   },
 
   async getPostById(post_id) {
-    const query = `SELECT * FROM posts WHERE post_id = $1`;
+    const query = `
+        SELECT 
+            posts.*,
+            users.username,
+            users.first_name,
+            users.last_name,
+            users.email,
+            users.role
+        FROM posts
+        JOIN users ON posts.user_id = users.user_id
+        WHERE posts.post_id = $1
+        `;
     const result = await pool.query(query, [post_id]);
     return result.rows[0];
   },

@@ -32,7 +32,7 @@ const authorizeDelete = async (req, res, next) => {
 
 router.post("/create-post", postController.createPost);
 router.get("/posts", postController.getAllPosts);
-// router.get("/posts/:id", postController.getPostById);
+router.get("/posts/:post_id", postController.getPostById);
 router.delete("/post/:post_id", authorizeDelete, postController.deletePost);
 
 module.exports = router;

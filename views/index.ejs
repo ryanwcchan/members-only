@@ -38,7 +38,11 @@
             <div
               class="bg-white p-6 rounded-lg shadow-md hover:text-blue-500 hover:scale-105 transition-all ease-in-out duration-300 cursor-pointer"
             >
-              <h3 class="text-lg font-semibold">Title: <%= post.title %></h3>
+              <h3 class="text-lg font-semibold"><a
+                href="/posts/<%= post.post_id %>"
+                class="hover:text-blue-500"
+                >Title: <%= post.title %></a
+              ></h3>
               <p class="text-black">Author: <%= post.username %></p>
               <p><%= post.content %></p>
             </div>

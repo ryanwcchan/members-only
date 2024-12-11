@@ -101,6 +101,37 @@ const postController = {
       res.status(500).json({ error: error.message });
     }
   },
+
+  async getPostById(req, res) {
+    try {
+      const post_id = req.params.post_id;
+      console.log("Post ID:", post_id);
+      const post = await postModel.getPostById(post_id);
+
+      const date = new Date(post.date_created);
+      post.formatted_date = `${date.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })}, ${date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      })}`;
+
+      if (!post) {
+        return res.status(404).render("404", { message: "Post not found" });
+      }
+
+      console.log("Post:", post);
+
+      res.render("post-page", { post });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 };
 
 module.exports = postController;

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body class="flex flex-col min-h-screen">
+    <%- include('./partials/navbar.ejs') %>
+    <main class="flex flex-col items-center w-full h-full flex-1 bg-gray-50">
+      <h1 class="text-2xl font-bold my-4">Title: <%= post.title %></h1>
+      <p class="font-bold">By: <%= post.username %></p>
+      <p class="font-gray-500"><%= post.email %></p>
+      <p><%= post.first_name %> <%= post.last_name %></p>
+      <p>Date Posted: <%= post.formatted_date %></p>
+
+      <p class="my-4"><%= post.content %></p>
+    </main>
+  </body>
+</html>
