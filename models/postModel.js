@@ -49,6 +49,24 @@ const postModel = {
     const result = await pool.query(query);
     return result.rows;
   },
+
+  async deletePost(post_id) {
+    const query = `DELETE FROM posts WHERE post_id = $1`;
+    const result = await pool.query(query, [post_id]);
+    return result.rows[0];
+  },
+
+  async getPostByUser(user_id) {
+    const query = `SELECT * FROM posts WHERE user_id = $1`;
+    const result = await pool.query(query, [user_id]);
+    return result.rows;
+  },
+
+  async getPostById(post_id) {
+    const query = `SELECT * FROM posts WHERE post_id = $1`;
+    const result = await pool.query(query, [post_id]);
+    return result.rows[0];
+  },
 };
 
 module.exports = postModel;

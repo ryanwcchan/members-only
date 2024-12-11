@@ -39,6 +39,9 @@ app.use(
   })
 );
 
+const methodOverride = require("method-override");
+app.use(methodOverride("_method"));
+
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -72,6 +75,34 @@ app.get("/profile", checkAuthenticated, (req, res) => {
 app.get("/create-post", checkAuthenticated, (req, res) => {
   res.render("create-post", { user: req.user });
 });
+
+const authorizeDelete = async (req, res, next) => {
+  const post_id = req.params.post_id;
+  const user_id = req.user.user_id;
+  const user_role = req.user.role;
+
+  try {
+    const query = `SELECT * FROM posts WHERE post_id = $1`;
+    const result = await pool.query(query, [post_id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).send("Post not found");
+    }
+
+    const postOwnerId = result.rows[0].user_id;
+
+    if ((postOwnerId = user_id || user_role === "admin")) {
+      next();
+    } else {
+      return res
+        .status(403)
+        .send("You do not have permission to delete this post");
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Internal Server Error");
+  }
+};
 
 // Routes
 const userRoutes = require("./routes/userRoutes.js");

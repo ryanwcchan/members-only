@@ -36,7 +36,9 @@ const postController = {
         (a, b) => new Date(b.date_created) - new Date(a.date_created)
       );
 
-      res.render("posts", { posts });
+      const user_id = req.user ? req.user.user_id : null;
+
+      res.render("posts", { posts, user_id });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: error.message });
@@ -73,6 +75,28 @@ const postController = {
       });
 
       res.render("index", { posts: recentPosts });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  async deletePost(req, res) {
+    try {
+      const post_id = req.params.post_id;
+
+      const post = await postModel.getPostById(post_id);
+      if (!post) {
+        return res.status(404).json({ error: "Post not found" });
+      }
+
+      if (post.user_id !== req.user.user_id && req.user.role !== "admin") {
+        return res
+          .status(403)
+          .json({ error: "You do not have permission to delete this post" });
+      }
+
+      await postModel.deletePost(post_id);
+      res.redirect("/posts");
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
