@@ -1,4 +1,4 @@
-# Club Membership App
+# Members Forum
 
 This project is a simple Express app that uses passport.js for user authentication. Users can sign up, log in, and create posts.
 
