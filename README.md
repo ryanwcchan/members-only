@@ -49,15 +49,15 @@ Ensure you have the following installed:
    npm install
    ```
 3. Set up the PostgreSQL database:
-   - Create a database named `club_membership`.
-   - Run the provided SQL scripts (if any) or use the models defined in the app to generate tables.
+   - Create a database named `db_name`.
+   - Run the create table script to generate tables.
 4. Create a `.env` file for environment variables:
    ```
-   DATABASE_URL=postgres://<username>:<password>@localhost:5432/club_membership
+   DATABASE_URL=postgres://<username>:<password>@localhost:5432/db_name
    SECRET_KEY=<your-secret-key>
    ```
 5. Start the application:
    ```bash
-   npm start
+   npm run dev
    ```
 6. Visit the app at [http://localhost:3000](http://localhost:3000).
